@@ -31,16 +31,16 @@ df['Maumee SRP Load (tonnes)'] = df['Maumee SRP Load (tonnes)'].astype(str).asty
 df['Maumee TN Load (tonnes)'] = df['Maumee TN Load (tonnes)'].astype(str).astype(float)
 df['Maumee Silica Load (tonnes)'] = df['Maumee Silica Load (tonnes)'].astype(str).astype(float)
 
-YEAR_2000 = df.loc['2000-1-1' : '2000-12-31']
-tp_total_2000 = YEAR_2000['Maumee TP Load (tonnes)'].sum()
-srp_total_2000 = df.loc['2000-1-1' : '2000-12-31'].groupby(pd.TimeGrouper('Maumee SRP Load (tonnes)')).sum()
-tn_total_2000
-si_total_2000
+# Define Date Range
+annual_range = df.loc['2000-1-1' : '2000-12-31']
+tp_total_range = annual_range['Maumee TP Load (tonnes)'].sum()
+srp_total_range = annual_range['Maumee SRP Load (tonnes)'].sum()
+tn_total_range = annual_range['Maumee TN Load (tonnes)'].sum()
+si_total_range = annual_range['Maumee Silica Load (tonnes)'].sum()
 
-# CORRECT WAY TO sum
-df['Maumee TP Load (tonnes)'].sum()
-
-print(df.loc['2000-6-1':'2000-6-10'])
+# Totals for Range
+print("For the specified annual range: \n"
+'Maumee TP Load (tonnes) = ', tp_total_range, "\n", 'Maumee SRP Load (tonnes) = ', srp_total_range, "\n", 'Maumee TN Load (tonnes) = ', tn_total_range, "\n", 'Maumee Silica Load (tonnes) = ', si_total_range)
 
 # pretty print DataFrame
 print(tabulate(df, headers='keys', tablefmt='psql'))
