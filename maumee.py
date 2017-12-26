@@ -8,11 +8,21 @@ import datetime #imports datetime library for boolean mask
 CSV_PATH = os.path.join('maumee_annual_sums.csv')
 # Create the DataFrame
 
-df = df[(df['Date'] > '1/1/2000') & (df['date'] <= '1/10/2000')]
+# df = df[(df['Date'] > '1/1/2000') & (df['date'] <= '1/10/2000')]
 
 df = pd.read_csv(CSV_PATH, index_col='Date')
-df['date'] = pd.date_range('1/1/2000', periods=10, freq='D')
-mask = (df['date'] > '1/1/2000') & (df['date'] <= '1/8/2000')
+p = df.pivot_table(index=['Date'])
+
+columns = ['Maumee TP Load (tonnes)', 'Maumee SRP Load (tonnes)', 'Maumee TN Load (tonnes)', 'Maumee Silica Load (tonnes)']
+p = p.reindex(columns=columns)
+p[columns] = p[columns].astype(str)
+
+df = p
+
+df['date'] = df['datetime'].apply(lambda x: x.strftime('%Y%m%d'))
+
+df['Date'] = pd.date_range('1/1/1988', periods=10, freq='D')
+mask = (df['date'] > '1/1/1988') & (df['date'] <= '1/8/1988')
 print(df.loc[mask])
 
 #
