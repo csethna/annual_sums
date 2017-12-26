@@ -12,14 +12,14 @@ CSV_PATH = os.path.join('maumee_annual_sums.csv')
 
 df = pd.read_csv(CSV_PATH, index_col='Date')
 p = df.pivot_table(index=['Date'])
-
+# Use reindex to make the 'Date' column the index column
 columns = ['Maumee TP Load (tonnes)', 'Maumee SRP Load (tonnes)', 'Maumee TN Load (tonnes)', 'Maumee Silica Load (tonnes)']
 p = p.reindex(columns=columns)
-p[columns] = p[columns].astype(str)
+p[columns] = p[columns].astype(str) # assigns type to string
 
 df = p
-
-df['date'] = df['datetime'].apply(lambda x: x.strftime('%Y%m%d'))
+# apply lambda function to sort date string by YYYY/MM/DD
+df['Date'] = df['datetime'].apply(lambda x: x.strftime('%Y%m%d'))
 
 df['Date'] = pd.date_range('1/1/1988', periods=10, freq='D')
 mask = (df['date'] > '1/1/1988') & (df['date'] <= '1/8/1988')
